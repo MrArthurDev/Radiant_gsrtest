@@ -1,15 +1,6 @@
-# Radiant GSR Test - v1.7
-**Version:** 1.7
-**Created by:** BattleRat for Radiant RP
-
 # ESX_GSR - v1.1
 **Version:** 1.1
-**Created by:** BZNDK aka. BenZoN
-
-**Requirements Radiant_gsrtest**
-[es_extended](https://github.com/ESX-Org/es_extended)
-[pNotify](https://github.com/Nick78111/pNotify)
-[mysql-async v3.x.x](https://github.com/brouznouf/fivem-mysql-async)
+**Created by:** BZNDK
 
 **Requirements esx_gsr**
 [es_extended](https://github.com/ESX-Org/es_extended)
@@ -27,15 +18,6 @@ Difference of Radiant GSR Test and ESX_GSR is that ESX_GSR dos not use MySQL to 
 - Auto clear the database table on server restart/start.
 - Current timer set to about 60 minutes (1 Hour) I believe
 
-**Installation Radiant_gsrtest**
-- Download - https://github.com/BattleRattt/Radiant_gsrtest/archive/master.zip
-- Put it in the `[esx]` directory
-- Import `gsr.sql` in your database
-- Add this to your  `server.cfg`:
-```
-start Radiant_gsrtest
-```
-
 **Installation esx_gsr**
 - Download - https://github.com/BattleRattt/Radiant_gsrtest/archive/master.zip
 - Put it in the `[esx]` directory
@@ -43,6 +25,61 @@ start Radiant_gsrtest
 ```
 start esx_gsr
 ```
+
+**Integration with esx_policejob**
+
+**Find.**
+```
+local elements = {
+	{label = _U('id_card'),			value = 'identity_card'},
+	{label = _U('search'),			value = 'body_search'},
+	{label = _U('handcuff'),		value = 'handcuff'},
+	{label = _U('drag'),			value = 'drag'},
+	{label = _U('put_in_vehicle'),	value = 'put_in_vehicle'},
+	{label = _U('out_the_vehicle'),	value = 'out_the_vehicle'},
+	{label = _U('fine'),			value = 'fine'},
+	{label = _U('unpaid_bills'),	value = 'unpaid_bills'},
+```
+Insert
+```
+	{label = "GSR Test",			value = 'gsr_test'}
+```
+
+**So you get something like.**
+```
+local elements = {
+	{label = _U('id_card'),			value = 'identity_card'},
+	{label = _U('search'),			value = 'body_search'},
+	{label = _U('handcuff'),		value = 'handcuff'},
+	{label = _U('drag'),			value = 'drag'},
+	{label = _U('put_in_vehicle'),	value = 'put_in_vehicle'},
+	{label = _U('out_the_vehicle'),	value = 'out_the_vehicle'},
+	{label = _U('fine'),			value = 'fine'},
+	{label = _U('unpaid_bills'),	value = 'unpaid_bills'},
+	{label = "GSR Test",			value = 'gsr_test'}
+```
+
+**Then abit below find.**
+```
+elseif action == 'unpaid_bills' then
+	OpenUnpaidBillsMenu(closestPlayer)
+```
+
+**After that insert.**
+```
+elseif action == 'gsr_test' then
+	TriggerServerEvent('esx_gsr:Check', GetPlayerServerId(closestPlayer))
+```
+
+**So it looks like this.**
+```
+elseif action == 'unpaid_bills' then
+	OpenUnpaidBillsMenu(closestPlayer)
+elseif action == 'gsr_test' then
+	TriggerServerEvent('esx_gsr:Check', GetPlayerServerId(closestPlayer))
+end
+```
+
 ## Legal
 Radiant_gsrtest - Radiant GSR Test
 esx_gsr - GSR Test
